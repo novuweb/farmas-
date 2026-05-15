@@ -87,7 +87,7 @@
     }
 
     /* ────────────── NAVBAR ────────────── */
-    nav {
+    nav.main-nav {
       position: sticky; top: 0; z-index: 100;
       height: 70px;
       background: var(--white);
@@ -153,9 +153,39 @@
     /* ────────────── HERO ────────────── */
     #inicio {
       min-height: 70vh;
-      background: linear-gradient(135deg, var(--pink-lt) 0%, var(--white) 60%);
+      background: #fff;
       display: flex; align-items: center; justify-content: center;
       position: relative; overflow: hidden;
+    }
+    /* Animated blobs */
+    .hero-blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(60px); opacity: .55;
+      pointer-events: none;
+    }
+    .hero-blob-1 {
+      width: 520px; height: 520px;
+      background: var(--pink-lt);
+      top: -120px; left: -100px;
+      animation: blob-drift 10s ease-in-out infinite alternate;
+    }
+    .hero-blob-2 {
+      width: 380px; height: 380px;
+      background: rgba(233,30,99,.18);
+      bottom: -80px; right: -60px;
+      animation: blob-drift 13s ease-in-out infinite alternate-reverse;
+    }
+    .hero-blob-3 {
+      width: 250px; height: 250px;
+      background: var(--pink-lt);
+      top: 50%; right: 38%;
+      animation: blob-drift 8s ease-in-out infinite alternate;
+    }
+    @keyframes blob-drift {
+      0%   { transform: translate(0, 0) scale(1); }
+      33%  { transform: translate(30px, -20px) scale(1.05); }
+      66%  { transform: translate(-15px, 25px) scale(.97); }
+      100% { transform: translate(20px, 10px) scale(1.03); }
     }
     .hero-inner {
       max-width: 1200px; margin: 0 auto; padding: 80px 24px;
@@ -195,13 +225,6 @@
     }
     .hero-img img { width: 100%; height: 100%; object-fit: cover; }
 
-    /* Decorative circles */
-    .hero-circle {
-      position: absolute; border-radius: 50%;
-      background: var(--pink-lt); opacity: .4; pointer-events: none;
-    }
-    .hero-circle-1 { width: 300px; height: 300px; top: -80px; right: -80px; }
-    .hero-circle-2 { width: 180px; height: 180px; bottom: 20px; left: -60px; }
 
     /* ────────────── PRODUCTOS ────────────── */
     #productos {
@@ -295,7 +318,20 @@
       background: var(--white);
     }
     .vanesa-inner {
-      max-width: 800px; margin: 0 auto;
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 280px 1fr; gap: 60px; align-items: start;
+    }
+    .vanesa-photo {
+      width: 280px; height: 320px;
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 16px 50px rgba(233,30,99,.15);
+      flex-shrink: 0;
+    }
+    .vanesa-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .vanesa-content { }
+    @media (max-width: 768px) {
+      .vanesa-inner { grid-template-columns: 1fr; }
+      .vanesa-photo { width: 180px; height: 200px; margin: 0 auto; }
     }
     .vanesa-badges {
       display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px;
@@ -319,30 +355,48 @@
       padding: 100px 24px;
       background: var(--gray-bg);
     }
+    .reviews-slider { max-width: 1200px; margin: 0 auto; }
     .reviews-grid {
-      max-width: 1200px; margin: 0 auto;
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+      margin-bottom: 40px;
     }
     .review-card {
       background: var(--white);
       border: 1px solid var(--pink-lt);
       border-radius: 12px; padding: 28px;
       box-shadow: 0 2px 12px rgba(0,0,0,.04);
-      transition: box-shadow .3s ease;
+      transition: box-shadow .3s ease, opacity .4s ease, transform .4s ease;
     }
     .review-card:hover { box-shadow: 0 8px 30px rgba(233,30,99,.1); }
-    .review-name {
-      font-size: 15px; font-weight: 700; color: var(--pink);
-    }
-    .review-stars {
-      display: flex; gap: 3px; margin: 8px 0;
-    }
+    .review-name { font-size: 15px; font-weight: 700; color: var(--pink); }
+    .review-stars { display: flex; gap: 3px; margin: 8px 0; }
     .star { color: var(--pink); font-size: 14px; }
     .review-text {
       font-size: 13px; color: var(--gray-txt);
-      line-height: 1.7; margin-top: 10px;
-      font-style: italic;
+      line-height: 1.7; margin-top: 10px; font-style: italic;
     }
+    /* Pagination controls */
+    .reviews-controls {
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+    }
+    .rev-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 2px solid var(--pink); background: none;
+      color: var(--pink); font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .3s ease; font-family: 'Poppins', sans-serif;
+    }
+    .rev-btn:hover { background: var(--pink); color: var(--white); }
+    .rev-btn:disabled { opacity: .3; cursor: not-allowed; }
+    .rev-dots { display: flex; gap: 8px; align-items: center; }
+    .rev-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--pink-lt); cursor: pointer;
+      transition: all .3s ease; border: none;
+    }
+    .rev-dot.active { background: var(--pink); width: 22px; border-radius: 4px; }
+    @media (max-width: 1024px) { .reviews-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px)  { .reviews-grid { grid-template-columns: 1fr; } }
 
     /* ────────────── CONTACTO ────────────── */
     #contacto {
@@ -465,7 +519,7 @@
 <body>
 
 <!-- ══════════════════════════ NAVBAR ══════════════════════════ -->
-<nav role="navigation" aria-label="Menú principal">
+<nav class="main-nav" role="navigation" aria-label="Menú principal">
   <div class="nav-inner">
     <a href="#inicio" class="nav-logo" aria-label="Farmasi — Inicio">
       <img src="logo.png" alt="Logo Farmasi">
@@ -496,8 +550,9 @@
 
 <!-- ══════════════════════════ HERO ══════════════════════════ -->
 <section id="inicio" aria-labelledby="hero-h1">
-  <div class="hero-circle hero-circle-1" aria-hidden="true"></div>
-  <div class="hero-circle hero-circle-2" aria-hidden="true"></div>
+  <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
+  <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
+  <div class="hero-blob hero-blob-3" aria-hidden="true"></div>
   <div class="hero-inner">
     <div class="hero-text">
       <p class="sec-label fade-in">Cosmética Premium Online</p>
@@ -570,6 +625,10 @@
 <!-- ══════════════════════════ VANESA ══════════════════════════ -->
 <section id="vanesa" aria-labelledby="vanesa-h2">
   <div class="vanesa-inner">
+    <div class="vanesa-photo fade-in">
+      <img src="vanesa.jpg" alt="Vanesa Muinelo Vázquez — Farmasi">
+    </div>
+    <div class="vanesa-content">
     <div class="fade-in">
       <p class="sec-label">La persona detrás de Farmasi</p>
       <h2 class="section-h2" id="vanesa-h2">CONOCE A VANESA</h2>
@@ -600,6 +659,7 @@
     <a href="https://www.instagram.com/vanesa_muinelo_vazquez" target="_blank" rel="noopener" class="ig-link fade-in delay-3">
       Sígueme en @vanesa_muinelo_vazquez
     </a>
+    </div><!-- end vanesa-content -->
   </div>
   <hr class="divider" aria-hidden="true">
 </section>
@@ -609,7 +669,14 @@
   <div class="section-header fade-in">
     <h2 class="section-h2" id="rev-h2">LO QUE DICEN NUESTRAS CLIENTAS</h2>
   </div>
-  <div class="reviews-grid" id="reviewsGrid"></div>
+  <div class="reviews-slider">
+    <div class="reviews-grid" id="reviewsGrid"></div>
+    <div class="reviews-controls">
+      <button class="rev-btn" id="revPrev" aria-label="Reseñas anteriores">&#8592;</button>
+      <div class="rev-dots" id="revDots"></div>
+      <button class="rev-btn" id="revNext" aria-label="Siguientes reseñas">&#8594;</button>
+    </div>
+  </div>
   <hr class="divider" aria-hidden="true">
 </section>
 
@@ -728,23 +795,48 @@
     { name: 'Gloria Montoya',    text: 'Calidad, confianza y una excelente asesoría. Eso es Farmasi. Totalmente satisfecha.' },
   ];
 
-  const grid = document.getElementById('reviewsGrid');
-  reviews.forEach(r => {
-    const card = document.createElement('article');
-    card.className = 'review-card';
-    card.innerHTML = `
-      <div class="review-name">${r.name}</div>
-      <div class="review-stars" aria-label="5 estrellas">
-        <span class="star" aria-hidden="true">★</span>
-        <span class="star" aria-hidden="true">★</span>
-        <span class="star" aria-hidden="true">★</span>
-        <span class="star" aria-hidden="true">★</span>
-        <span class="star" aria-hidden="true">★</span>
-      </div>
-      <p class="review-text">"${r.text}"</p>
-    `;
-    grid.appendChild(card);
-  });
+  /* ── REVIEWS PAGINATION ── */
+  const grid    = document.getElementById('reviewsGrid');
+  const dotsEl  = document.getElementById('revDots');
+  const btnPrev = document.getElementById('revPrev');
+  const btnNext = document.getElementById('revNext');
+  const PER_PAGE = 3;
+  let revPage = 0;
+  const totalPages = Math.ceil(reviews.length / PER_PAGE);
+
+  function renderReviews() {
+    grid.innerHTML = '';
+    const start = revPage * PER_PAGE;
+    reviews.slice(start, start + PER_PAGE).forEach(r => {
+      const card = document.createElement('article');
+      card.className = 'review-card';
+      card.innerHTML = `
+        <div class="review-name">${r.name}</div>
+        <div class="review-stars" aria-label="5 estrellas">
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
+        </div>
+        <p class="review-text">"${r.text}"</p>
+      `;
+      grid.appendChild(card);
+    });
+    // Dots
+    dotsEl.innerHTML = '';
+    for (let i = 0; i < totalPages; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'rev-dot' + (i === revPage ? ' active' : '');
+      dot.setAttribute('aria-label', `Página ${i + 1}`);
+      dot.addEventListener('click', () => { revPage = i; renderReviews(); });
+      dotsEl.appendChild(dot);
+    }
+    btnPrev.disabled = revPage === 0;
+    btnNext.disabled = revPage === totalPages - 1;
+  }
+
+  btnPrev.addEventListener('click', () => { if (revPage > 0) { revPage--; renderReviews(); } });
+  btnNext.addEventListener('click', () => { if (revPage < totalPages - 1) { revPage++; renderReviews(); } });
+  renderReviews();
 
   /* ── HAMBURGER ── */
   const hamBtn = document.getElementById('hamBtn');
